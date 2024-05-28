@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 
 posts = [
@@ -52,7 +53,12 @@ def index(request):
 
 def post_detail(request, id):
     template = 'blog/detail.html'
-    post = next(post for post in posts if post['id'] == id)
+
+    try:
+        post = next(post for post in posts if post['id'] == id)
+    except StopIteration:
+        raise Http404("Post does not exist")
+
     context = {'post': post}
     return render(request, template, context)
 
