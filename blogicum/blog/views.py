@@ -57,7 +57,7 @@ def post_detail(request, id):
     try:
         post = next(post for post in posts if post['id'] == id)
     except StopIteration:
-        raise Http404("Post does not exist")
+        raise Http404('Post does not exist')
 
     context = {'post': post}
     return render(request, template, context)

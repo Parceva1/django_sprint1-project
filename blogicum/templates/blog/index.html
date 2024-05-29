@@ -3,24 +3,22 @@
   Лента записей
 {% endblock %}
 {% block text %}
-  <div>
-    <h1>Лента записей</h1>
+  <h1>Лента записей</h1>
+  <hr>
+  {% for post in posts|dictsortreversed:"id" %}
+    <article>
+      <ul>
+        <li>Место: {{ post.location }}</li>
+        <li>Дата: {{ post.date }}</li>
+        <li>Категория: <a href="{% url 'blog:category_posts' category_slug=post.category %}">{{ post.category }}</a></li>
+      </ul>
+      <p>
+        {{ post.text|truncatewords:10 }}
+      </p>
+      <a href="{% url 'blog:post_detail' id=post.id %}">Читать полный текст</a>
+    </article>
     <hr>
-    {% for post in posts|dictsortreversed:"id" %}
-      <article>
-        <ul>
-          <li>Место: {{ post.location }}</li>
-          <li>Дата: {{ post.date }}</li>
-          <li>Категория: <a href="{% url 'blog:category_posts' category_slug=post.category %}">{{ post.category }}</a></li>
-        </ul>
-        <p>
-          {{ post.text|truncatewords:10 }}
-        </p>
-        <a href="{% url 'blog:post_detail' id=post.id %}">Читать полный текст</a>
-      </article>
-      <hr>
-    {% empty %}
-      <p>Нет записей для отображения.</p>
-    {% endfor %}
-  </div>
+  {% empty %}
+    <p>Нет записей для отображения.</p>
+  {% endfor %}
 {% endblock %}
